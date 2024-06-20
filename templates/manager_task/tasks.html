@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Tasks</title>
+     <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .container {
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 800px;
+            margin-top: 20px;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        .btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+            border-radius: 4px;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        .edit-btn {
+            background-color: #f0ad4e;
+        }
+
+        .edit-btn:hover {
+            background-color: #ec971f;
+        }
+
+        .delete-btn {
+            background-color: #d9534f;
+        }
+
+        .delete-btn:hover {
+            background-color: #c9302c;
+        }
+
+        .create-btn {
+            background-color: #0275d8;
+            margin-top: 20px;
+        }
+
+        .create-btn:hover {
+            background-color: #025aa5;
+        }
+    </style>
+</head>
+<body>
+    <h1>User Tasks</h1>
+    <form method="GET" action="">
+        <label for="priority">Filter by Priority:</label>
+        <select id="priority" name="priority">
+            <option value="" {% if not selected_priority %}selected{% endif %}>All</option>
+            <option value="1" {% if selected_priority == '1' %}selected{% endif %}>Low</option>
+            <option value="2" {% if selected_priority == '2' %}selected{% endif %}>Medium</option>
+            <option value="3" {% if selected_priority == '3' %}selected{% endif %}>High</option>
+        </select>
+        <button type="submit" class="btn">Apply Filter</button>
+    </form>
+    <table>
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Due Date</th>
+            <th>Priority</th>
+            <th>Actions</th>
+        </tr>
+        {% for task in tasks %}
+        <tr>
+            <td>{{ task.title }}</td>
+            <td>{{ task.description }}</td>
+            <td>{{ task.due_date }}</td>
+            <td>{{ task.get_priority_display }}</td>
+            <td>
+                <a href="{% url 'edit_task' task.id %}" class="btn edit-btn">Edit</a>
+                <form method="POST" action="{% url 'delete_task' task.id %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn delete-btn">Delete</button>
+                </form>
+            </td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="5">No tasks available.</td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="{% url 'create_task' %}" class="btn create-btn">Create New Task</a>
+</body>
+</html>
