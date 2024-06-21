@@ -1,9 +1,10 @@
 from django.db import models
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from accounts.models import CustomUser
 
 
 class Task(models.Model):
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=False, default=1)
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=False, default=1)
     title = models.CharField(max_length=255)
     description = models.TextField()
     due_date = models.DateField()

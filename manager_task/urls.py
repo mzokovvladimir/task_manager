@@ -5,8 +5,8 @@ from . import views
 # І реєстрації ще теж немає.
 
 urlpatterns = [
-    path('tasks/', views.tasks, name='tasks'),
-    path('tasks/create/', views.create_task, name='create_task'),
-    path('tasks/edit/<int:task_id>/', views.edit_task, name='edit_task'),
-    path('tasks/delete/<int:task_id>/', views.delete_task, name='delete_task'),
+    path('', views.tasks, name='tasks'),
+    path('create/', views.create_task, name='create_task'),
+    path('edit/<int:task_id>/', views.edit_task, name='edit_task'),
+    path('delete/<int:task_id>/', views.delete_task, name='delete_task'),
 ]
