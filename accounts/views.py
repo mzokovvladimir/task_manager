@@ -9,7 +9,6 @@ from django.shortcuts import redirect
 from django.contrib.auth import logout as auth_logout
 
 
-
 class RegisterView(CreateView):
     model = CustomUser
     form_class = CustomUserCreationForm

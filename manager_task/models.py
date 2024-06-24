@@ -11,6 +11,14 @@ class Task(models.Model):
     priority = models.IntegerField(choices=((1, 'Low'), (2, 'Medium'), (3, 'High')))
     completed = models.BooleanField(default=False)
 
+    @property
+    def is_completed(self):
+        return self.completed
+
+    @property
+    def is_pending(self):
+        return not self.completed
+
     class Meta:
         unique_together = ('user', 'title')
 

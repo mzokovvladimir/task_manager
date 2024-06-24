@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from .models import Task
 from .forms import TaskForm, EditTaskForm
+from accounts.models import CustomUser
 
 
 def tasks(request):
@@ -53,3 +54,4 @@ def edit_task(request, task_id):
         form = EditTaskForm(instance=task)
 
     return render(request, 'manager_task/edit_task.html', {'form': form})
+

@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}API{% endblock %}
+
+{% block content %}
+    <h1>API Task Manager</h1>
+    <ul>
+        <li class="nav-item"><a class="nav-link" href="{% url 'api_list' %}">Task List</a></li>
+        <li class="nav-item"><a class="nav-link" href="{% url 'statistics' %}">User Task Statistics API</a></li>
+    </ul>
+   
+{% endblock %}

@@ -29,6 +29,8 @@
                     {% if user.is_authenticated %}
                         <li class="nav-item"><a class="nav-link" href="{% url 'tasks' %}">Tasks</a></li>
                         <li class="nav-item"><a class="nav-link" href="{% url 'profile' %}">Profile</a></li>
+                        
+                        <li class="nav-item"><a class="nav-link" href="{% url 'api-overview' %}">API</a></li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
                         </li>
