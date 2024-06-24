@@ -10,7 +10,7 @@ def tasks(request):
     if selected_priority:
         tasks = Task.objects.filter(user=request.user, priority=selected_priority)
     else:
-        tasks = Task.objects.filter(user=request.user)
+        tasks = Task.objects.all()
 
     return render(request, 'manager_task/tasks.html', {'tasks': tasks, 'selected_priority': selected_priority})
 

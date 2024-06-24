@@ -7,6 +7,7 @@ from .forms import CustomUserCreationForm, CustomAuthenticationForm, UserProfile
 from .models import CustomUser
 from django.shortcuts import redirect
 from django.contrib.auth import logout as auth_logout
+from manager_task.models import Task
 
 
 class RegisterView(CreateView):
@@ -31,6 +32,11 @@ class ProfileView(UpdateView):
     def get_object(self):
         return self.request.user
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['tasks'] = Task.objects.filter(user=self.request.user)
+        return context
+
 
 class EditProfileView(UpdateView):
     model = CustomUser
@@ -44,6 +50,7 @@ class EditProfileView(UpdateView):
 
 def home(request):
     return render(request, 'accounts/home.html')
+
 
 def logout(request):
     auth_logout(request)

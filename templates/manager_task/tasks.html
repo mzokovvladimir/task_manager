@@ -3,48 +3,56 @@
 {% block title %}User Tasks{% endblock %}
 
 {% block content %}
-    <h1>User Tasks</h1>
-    <form method="GET" action="">
-        <label for="priority">Filter by Priority:</label>
-        <select id="priority" name="priority">
-            <option value="" {% if not selected_priority %}selected{% endif %}>All</option>
-            <option value="1" {% if selected_priority == '1' %}selected{% endif %}>Low</option>
-            <option value="2" {% if selected_priority == '2' %}selected{% endif %}>Medium</option>
-            <option value="3" {% if selected_priority == '3' %}selected{% endif %}>High</option>
-        </select>
-        <button type="submit" class="btn">Apply Filter</button>
-    </form>
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Title</th>
-                <th>Description</th>
-                <th>Due Date</th>
-                <th>Priority</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for task in tasks %}
-            <tr>
-                <td>{{ task.title }}</td>
-                <td>{{ task.description }}</td>
-                <td>{{ task.due_date }}</td>
-                <td>{{ task.get_priority_display }}</td>
-                <td>
-                    <a href="{% url 'edit_task' task.id %}" class="btn btn-sm btn-warning">Edit</a>
-                    <form method="POST" action="{% url 'delete_task' task.id %}" style="display: inline;">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-sm btn-danger">Delete</button>
-                    </form>
-                </td>
-            </tr>
-            {% empty %}
-            <tr>
-                <td colspan="5">No tasks available.</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-    <a href="{% url 'create_task' %}" class="btn btn-primary">Create New Task</a>
+    <div class="container">
+        <h1>User Tasks</h1>
+        <form method="GET" action="">
+            <label for="priority">Filter by Priority:</label>
+            <select id="priority" name="priority">
+                <option value="" {% if not selected_priority %}selected{% endif %}>All</option>
+                <option value="1" {% if selected_priority == '1' %}selected{% endif %}>Low</option>
+                <option value="2" {% if selected_priority == '2' %}selected{% endif %}>Medium</option>
+                <option value="3" {% if selected_priority == '3' %}selected{% endif %}>High</option>
+            </select>
+            <button type="submit" class="btn">Apply Filter</button>
+        </form>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>User</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Due Date</th>
+                    <th>Priority</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for task in tasks %}
+                <tr>
+                    <td>{{ task.user.username }}</td>
+                    <td>{{ task.title }}</td>
+                    <td>{{ task.description }}</td>
+                    <td>{{ task.due_date }}</td>
+                    <td>{{ task.get_priority_display }}</td>
+                    <td>
+                        {% if task.user == user %}
+                            <a href="{% url 'edit_task' task.id %}" class="btn btn-sm btn-warning">Edit</a>
+                            <form method="POST" action="{% url 'delete_task' task.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger">Delete</button>
+                            </form>
+                        {% else %}
+                            <span>View Only</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="6">No tasks available.</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <a href="{% url 'create_task' %}" class="btn btn-primary">Create New Task</a>
+    </div>
 {% endblock %}
