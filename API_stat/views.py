@@ -1,20 +1,27 @@
-from rest_framework import viewsets
+from rest_framework import viewsets, status
+from rest_framework.permissions import IsAuthenticated
 from django.shortcuts import render
-from rest_framework import status
 from rest_framework.views import APIView
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from manager_task.models import Task
-from .serializers import TaskSerializer, TaskStatisticsSerializer
+from .serializers import TaskSerializer, TaskStatisticsSerializer, UserSerializer
 from django.db.models import Count, Q
 from accounts.models import CustomUser
+from rest_framework.authtoken.models import Token
 
 
 class TaskViewSet(viewsets.ViewSet):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        return Task.objects.filter(user=self.request.user)
 
 
 class TaskListAPIView(APIView):
+    permission_classes = [IsAuthenticated]
 
     @staticmethod
     def get(request):
@@ -27,11 +34,12 @@ class TaskListAPIView(APIView):
         serializer = TaskSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save(user=request.user)
-            return Response(serializer.data, status=201)
-        return Response(serializer.errors, status=400)
+            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 
 class TaskStatisticsAPIView(APIView):
+    permission_classes = [IsAuthenticated]
 
     @staticmethod
     def get(request):
@@ -63,3 +71,14 @@ class TaskStatisticsAPIView(APIView):
 
 def api_overview(request):
     return render(request, 'API/api_overview.html')
+
+
+@api_view(['POST'])
+def register_user(request):
+    if request.method == 'POST':
+        serializer = UserSerializer(data=request.data)
+        if serializer.is_valid():
+            user = serializer.save()
+            token = Token.objects.create(user=user)
+            return Response({'token': token.key, 'id': user.pk}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

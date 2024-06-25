@@ -8,6 +8,7 @@ from .models import CustomUser
 from django.shortcuts import redirect
 from django.contrib.auth import logout as auth_logout
 from manager_task.models import Task
+from rest_framework.authtoken.models import Token
 
 
 class RegisterView(CreateView):
@@ -15,6 +16,24 @@ class RegisterView(CreateView):
     form_class = CustomUserCreationForm
     template_name = 'accounts/register.html'
     success_url = reverse_lazy('login')
+
+    def form_valid(self, form):
+        super().form_valid(form)
+
+        email = form.cleaned_data['email']
+        password = form.cleaned_data['password1']
+        try:
+            user = CustomUser.objects.get(email=email)
+            login(self.request, user)
+            token, created = Token.objects.get_or_create(user=user)
+            if created:
+                pass
+            else:
+                pass
+        except CustomUser.DoesNotExist:
+            pass
+
+        return super().form_valid(form)
 
 
 class CustomLoginView(LoginView):
