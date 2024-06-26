@@ -1,70 +1,20 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create Task</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
+{% extends "base.html" %}
+{% load static %}
 
-        .container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-        }
-
-        h1 {
-            text-align: center;
-        }
-
-        form {
-            display: flex;
-            flex-direction: column;
-        }
-
-        label {
-            margin-bottom: 5px;
-            font-weight: bold;
-        }
-
-        input, textarea, select, button {
-            margin-bottom: 10px;
-            padding: 10px;
-            font-size: 16px;
-        }
-
-        button {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            cursor: pointer;
-        }
-
-        button:hover {
-            background-color: #45a049;
-        }
-
-        .back-link {
-            text-align: center;
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-    <div class="container">
-        <h1>Create Task</h1>
-        <form method="POST" action="{% url 'create_task' %}">
+{% block content %}
+<div class="d-flex justify-content-center align-items-center text-center" style="min-height: 80vh;">
+    <div class="col-md-6">
+        <h1 class="text-center">Create Task</h1>
+        <form method="post" action="{% url 'create_task' %}" class="p-4 border rounded bg-light">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Create Task</button>
+            <div class="text-center">
+                <button type="submit" class="btn btn-info">Create Task</button>
+            </div>
         </form>
-        <div class="back-link">
-            <a href="{% url 'tasks' %}">Back to Task List</a>
+        <div class="text-center mt-3">
+            <a href="{% url 'tasks' %}" class="btn btn-secondary">Back to Task List</a>
         </div>
     </div>
-</body>
-</html>
+</div>
+{% endblock %}

@@ -3,9 +3,11 @@
 {% block title %}API{% endblock %}
 
 {% block content %}
-    <h1>API Task Manager</h1>
-    <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="{% url 'api:task-list' %}">Task List</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'api:statistics' %}">User Task Statistics API</a></li>
-    </ul>
+    <div class="container mt-5" style="min-height: 70vh">
+    <h1 class="text-center">API Task Manager</h1>
+    <div class="text-center">
+        <a class="btn btn-info" href="{% url 'api:task-list' %}">Task List</a>
+        <a class="btn btn-info" href="{% url 'api:statistics' %}">User Task Statistics API</a>
+    </div>
+    </div>
 {% endblock %}

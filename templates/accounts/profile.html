@@ -2,48 +2,60 @@
 {% load static %}
 
 {% block content %}
-    <div class="container">
-        <h1>Profile</h1>
-        {% if user.avatar %}
-            <img src="{{ user.avatar.url }}" alt="{{ user.username }}" width="100">
-        {% else %}
-            <img src="{% static 'images/default_avatar.png' %}" alt="Default Avatar" width="100">
-        {% endif %}
-        <p>Username: {{ user.username }}</p>
-        <p>First name: {{ user.first_name }}</p>
-        <p>Last name: {{ user.last_name }}</p>
-        <p>Email: {{ user.email }}</p>
-        <p>Phone: {{ user.phone }}</p>
-        <a href="{% url 'edit_profile' %}">Edit Profile</a>
-        <br>
-        <h2>My Tasks</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>Priority</th>
-                    <th>Completed</th>
-                    <th>Date</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for task in tasks %}
-                    <tr>
-                        <td>{{ task.title }}</td>
-                        <td>{{ task.get_priority_display }}</td>
-                        <td>{{ task.completed }}</td>
-                        <td>{{ task.due_date }}</td>
-                    </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="4">No tasks available</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
-        <div class="back-link">
-            <a href="{% url 'tasks' %}">Back to Task List</a>
+<div class="container" style="min-height: 70vh">
+    <h1>Profile</h1>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="card bg-info">
+                <div class="card-body text-center">
+                    {% if user.avatar %}
+                        <img src="{{ user.avatar.url }}" alt="{{ user.username }}" class="img-thumbnail" width="100">
+                    {% else %}
+                        <img src="{% static 'images/default_avatar.png' %}" alt="Default Avatar" class="img-thumbnail" width="100">
+                    {% endif %}
+                    <h5 class="card-title">{{ user.username }}</h5>
+                    <p class="card-text">First name: <b>{{ user.first_name }}</b></p>
+                    <p class="card-text">Last name: <b>{{ user.last_name }}</b></p>
+                    <p class="card-text">Email: <b>{{ user.email }}</b></p>
+                    <p class="card-text">Phone: <b>{{ user.phone }}</b></p>
+                    <a href="{% url 'edit_profile' %}" class="btn btn-light btn-sm">Edit Profile</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="card">
+                <div class="card-body">
+                    <h2>My Tasks</h2>
+                    <table class="table table-bordered table-hover">
+                        <thead class="thead bg-info text-light">
+                            <tr>
+                                <th>Title</th>
+                                <th>Priority</th>
+                                <th>Completed</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in tasks %}
+                                <tr>
+                                    <td>{{ task.title }}</td>
+                                    <td>{{ task.get_priority_display }}</td>
+                                    <td>{{ task.completed }}</td>
+                                    <td>{{ task.due_date }}</td>
+                                </tr>
+                            {% empty %}
+                                <tr>
+                                    <td colspan="4" class="text-center">No tasks available</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                    <div class="text-center">
+                        <a href="{% url 'tasks' %}" class="btn btn-info btn-sm">Back to Task List</a>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
+</div>
 {% endblock %}

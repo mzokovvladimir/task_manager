@@ -1,12 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
-<div class="container mt-5">
-  <h4>Реєстрація</h4>
-  <form method="post" enctype="multipart/form-data">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit" class="btn btn-info" >Register</button>
-  </form>
+<div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
+    <div class="col-md-4">
+        <h4 class="text-center">Реєстрація</h4>
+        <form method="post" enctype="multipart/form-data" class="p-4 border rounded bg-light">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div class="text-center">
+                <button type="submit" class="btn btn-info">Register</button>
+            </div>
+        </form>
+    </div>
 </div>
 {% endblock %}
