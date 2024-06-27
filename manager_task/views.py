@@ -8,7 +8,7 @@ def tasks(request):
     selected_priority = request.GET.get('priority', '')
 
     if selected_priority:
-        tasks = Task.objects.filter(user=request.user, priority=selected_priority)
+        tasks = Task.objects.filter(priority=selected_priority)
     else:
         tasks = Task.objects.all()
 

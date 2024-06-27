@@ -3,9 +3,7 @@
 {% block title %}API{% endblock %}
 
 {% block content %}
-    <h1>API Task Manager</h1>
-    <ul class="nav flex-column">
-        <li class="nav-item"><a class="nav-link" href="{% url 'api:task-list' %}">Task List</a></li>
-        <li class="nav-item"><a class="nav-link" href="{% url 'api:statistics' %}">User Task Statistics API</a></li>
-    </ul>
+    <h1>API Overview</h1>
+    <p>This is the overview of the API endpoints.</p>
+    <a href="{{ api_root_url }}">Go to API Root</a>
 {% endblock %}
