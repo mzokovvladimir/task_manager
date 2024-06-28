@@ -14,11 +14,20 @@ document.addEventListener('DOMContentLoaded', function() {
     fetch('/api/user-statistics/')
         .then(response => response.json())
         .then(data => {
-            console.log(data); // Додано для перевірки даних
+            console.log(data); 
             const userLabels = data.map(user => user.username);
-            const activeUsers = data.map(user => user.active ? 1 : 0);
-            const staffUsers = data.map(user => user.staff ? 1 : 0);
-            const superusers = data.map(user => user.superuser ? 1 : 0);
+            const totalTasks = data.map(user => user.total_tasks);
+            
+            // Обчислення сум для відсоткових значень
+            const totalUsers = data.length;
+            const totalActive = data.filter(user => user.active).length;
+            const totalStaff = data.filter(user => user.staff).length;
+            const totalSuperusers = data.filter(user => user.superuser).length;
+
+            // Розрахунок відсоткових значень
+            const activeUsers = (totalActive / totalUsers) * 100;
+            const staffUsers = (totalStaff / totalUsers) * 100;
+            const superusers = (totalSuperusers / totalUsers) * 100;
 
             const ctxUser = document.getElementById('user-statistics-chart').getContext('2d');
             new Chart(ctxUser, {
@@ -27,22 +36,29 @@ document.addEventListener('DOMContentLoaded', function() {
                     labels: userLabels,
                     datasets: [
                         {
-                            label: 'Active Users',
-                            data: activeUsers,
+                            label: 'Total Tasks',
+                            data: totalTasks,
+                            backgroundColor: 'rgba(162,72,192,0.2)',
+                            borderColor: 'rgba(158,77,192,0.2)',
+                            borderWidth: 1
+                        },
+                        {
+                            label: 'Active Users (%)',
+                            data: Array(data.length).fill(activeUsers),
                             backgroundColor: 'rgba(75, 192, 192, 0.2)',
                             borderColor: 'rgba(75, 192, 192, 1)',
                             borderWidth: 1
                         },
                         {
-                            label: 'Staff Users',
-                            data: staffUsers,
+                            label: 'Staff Users (%)',
+                            data: Array(data.length).fill(staffUsers),
                             backgroundColor: 'rgba(54, 162, 235, 0.2)',
                             borderColor: 'rgba(54, 162, 235, 1)',
                             borderWidth: 1
                         },
                         {
-                            label: 'Superusers',
-                            data: superusers,
+                            label: 'Superusers (%)',
+                            data: Array(data.length).fill(superusers),
                             backgroundColor: 'rgba(255, 206, 86, 0.2)',
                             borderColor: 'rgba(255, 206, 86, 1)',
                             borderWidth: 1
@@ -53,6 +69,9 @@ document.addEventListener('DOMContentLoaded', function() {
                     scales: {
                         y: {
                             beginAtZero: true
+                        },
+                        x: {
+                            stacked: true
                         }
                     }
                 }

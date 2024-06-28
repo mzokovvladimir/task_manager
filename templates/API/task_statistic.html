@@ -1,63 +1,63 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}User Statistics{% endblock %}
+{% block title %}Task Statistics{% endblock %}
 
 {% block content %}
-<div class="container mt-5" style="min-height: 70vh">
-    <h1 class="text-center">User Statistics</h1>
-    <canvas id="user-statistics-chart" style="height: 400px;"></canvas>
-</div>
+    <div class="container mt-5" style="min-height: 70vh">
+        <h1 class="text-center">Task Statistics</h1>
+        <canvas id="user-statistics-chart" style="height: 400px;"></canvas>
+    </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    fetch('/api/user-statistics/')
-        .then(response => response.json())
-        .then(data => {
-            console.log(data); // Додано для перевірки даних
-            const userLabels = data.map(user => user.username);
-            const activeUsers = data.map(user => user.active ? 1 : 0);
-            const staffUsers = data.map(user => user.staff ? 1 : 0);
-            const superusers = data.map(user => user.superuser ? 1 : 0);
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            fetch('/api/user-statistics/')
+                .then(response => response.json())
+                .then(data => {
+                    console.log(data);
+                    const userLabels = data.map(user => user.username);
+                    const totalTasks = data.map(user => user.total_tasks);
+                    const completedTasks = data.map(user => user.completed_tasks);
+                    const pendingTasks = data.map(user => user.pending_tasks);
 
-            const ctxUser = document.getElementById('user-statistics-chart').getContext('2d');
-            new Chart(ctxUser, {
-                type: 'bar',
-                data: {
-                    labels: userLabels,
-                    datasets: [
-                        {
-                            label: 'Active Users',
-                            data: activeUsers,
-                            backgroundColor: 'rgba(75, 192, 192, 0.2)',
-                            borderColor: 'rgba(75, 192, 192, 1)',
-                            borderWidth: 1
+                    const ctxUser = document.getElementById('user-statistics-chart').getContext('2d');
+                    new Chart(ctxUser, {
+                        type: 'bar',
+                        data: {
+                            labels: userLabels,
+                            datasets: [
+                                {
+                                    label: 'Total Tasks',
+                                    data: totalTasks,
+                                    backgroundColor: 'rgba(75, 192, 192, 0.2)',
+                                    borderColor: 'rgba(75, 192, 192, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Completed Tasks',
+                                    data: completedTasks,
+                                    backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                                    borderColor: 'rgba(54, 162, 235, 1)',
+                                    borderWidth: 1
+                                },
+                                {
+                                    label: 'Pending Tasks',
+                                    data: pendingTasks,
+                                    backgroundColor: 'rgba(255, 206, 86, 0.2)',
+                                    borderColor: 'rgba(255, 206, 86, 1)',
+                                    borderWidth: 1
+                                }
+                            ]
                         },
-                        {
-                            label: 'Staff Users',
-                            data: staffUsers,
-                            backgroundColor: 'rgba(54, 162, 235, 0.2)',
-                            borderColor: 'rgba(54, 162, 235, 1)',
-                            borderWidth: 1
-                        },
-                        {
-                            label: 'Superusers',
-                            data: superusers,
-                            backgroundColor: 'rgba(255, 206, 86, 0.2)',
-                            borderColor: 'rgba(255, 206, 86, 1)',
-                            borderWidth: 1
+                        options: {
+                            scales: {
+                                y: {
+                                    beginAtZero: true
+                                }
+                            }
                         }
-                    ]
-                },
-                options: {
-                    scales: {
-                        y: {
-                            beginAtZero: true
-                        }
-                    }
-                }
-            });
+                    });
+                });
         });
-});
-</script>
+    </script>
 {% endblock %}

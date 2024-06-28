@@ -1,16 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}API Task Manager{% endblock %}
+{% block title %}API{% endblock %}
 
 {% block content %}
-    <div class="container mt-5" style="min-height: 70vh">
-        <h1 class="text-center">API Task Manager</h1>
-        <div class="text-center">
-           
-            <a class="btn btn-info" href="{% url 'api:statistic' %}">Task Statistics</a>
-            
-            <a class="btn btn-info" href="{% url 'api:task-statistic' %}">User Statistics Page</a>
-        
-        </div>
-    </div>
+    <h1 class="text-center">API Task Manager</h1>
+    <ul class="nav flex-column text-center">
+        <li class="nav-item">
+            <a class="btn btn-primary mb-2" href="{% url 'api:statistic' %}">User Statistics</a>
+            <a class="btn btn-primary mb-2" href="{% url 'api:task-statistic' %}">Task Statistics</a>
+        </li>
+    </ul>
 {% endblock %}
