@@ -1,15 +1,35 @@
 {% extends "base.html" %}
+{% load static %}
 
-{% block title %}Login{% endblock %}
+{% block title %}Home{% endblock %}
 
 {% block content %}
-  <link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap" rel="stylesheet">
 
-<div class="container mt-5">
-    <h2 style="font-family: 'Ubuntu', sans-serif">Любий друже!</h2>
-  <div class="content">
-    <p class="lead"><em><p>Цей застосунок розроблено спеціально для твоєї зручності.</p>
-    <p>Щоб розпочати роботу авторезуйся або зареєструйся на сайті.</p></em></p>
+<div class="container mt-5" style="min-height: 70vh">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <h2 style="font-family: 'Ubuntu', sans-serif">Любий друже!</h2>
+            <div class="content">
+                <p class="lead"><em><p>Цей застосунок розроблено спеціально для Вашої зручності.</p>
+                <p>Авторизуйтеся та оберіть дію.</p></em></p>
+                {% if user.is_authenticated %}
+                    <a href="{% url 'tasks' %}" class="btn btn-info">Tasks</a>
+                    <a href="{% url 'create_task' %}" class="btn btn-secondary">Create Task</a>
+                {% else %}
+                    <a href="{% url 'login' %}" class="btn btn-info">Login</a>
+                    <a href="{% url 'register' %}" class="btn btn-secondary">Registration</a>
+                {% endif %}
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="embed-responsive embed-responsive-16by9">
+                <video class="embed-responsive-item" autoplay loop muted>
+                    <source src="{% static 'video/start_video.mp4' %}" type="video/mp4">
+                    Your browser does not support the video tag.
+                </video>
+            </div>
+        </div>
+    </div>
 </div>
-  </div>
 {% endblock %}

@@ -15,10 +15,10 @@ class RegisterView(CreateView):
     model = CustomUser
     form_class = CustomUserCreationForm
     template_name = 'accounts/register.html'
-    success_url = reverse_lazy('login')
+    success_url = reverse_lazy('home')
 
     def form_valid(self, form):
-        super().form_valid(form)
+        response = super().form_valid(form)
 
         email = form.cleaned_data['email']
         password = form.cleaned_data['password1']
@@ -33,7 +33,7 @@ class RegisterView(CreateView):
         except CustomUser.DoesNotExist:
             pass
 
-        return super().form_valid(form)
+        return response
 
 
 class CustomLoginView(LoginView):
