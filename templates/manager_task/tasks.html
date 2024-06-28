@@ -13,7 +13,7 @@
                 <option value="2" {% if selected_priority == '2' %}selected{% endif %}>Medium</option>
                 <option value="3" {% if selected_priority == '3' %}selected{% endif %}>High</option>
             </select>
-            <button type="submit" class="btn">Apply Filter</button>
+            <button type="submit" class="btn btn-info text-light">Apply Filter</button>
         </form>
         <table class="table text-center">
             <thead class="thead bg-info text-light">
@@ -54,7 +54,7 @@
             </tbody>
         </table>
     <div class="text-center mt-3">
-        <a href="{% url 'create_task' %}" class="btn btn-info btn-outline-dark text-light">Create New Task</a>
+        <a href="{% url 'create_task' %}" class="btn btn-info text-light">Create New Task</a>
     </div>
     </div>
 {% endblock %}

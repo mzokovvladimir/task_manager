@@ -24,5 +24,6 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('tasks/', include('manager_task.urls')),
     path('', include('accounts.urls')),
+    path('goo/accounts/', include('allauth.urls')),
     path('api/', include('API_stat.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
