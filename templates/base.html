@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    {% load static %}
+    {% load static account socialaccount %}
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}Task Manager{% endblock %}</title>
@@ -33,7 +34,10 @@
                         <li class="nav-item"><a class="nav-link" href="{% url 'api:api-overview' %}">API</a></li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
+                        
+                        
                         </li>
+                        
                         <li class="nav-item">
                             {% if user.avatar %}
                                 <img src="{{ user.avatar.url }}" alt="Avatar" class="avatar">

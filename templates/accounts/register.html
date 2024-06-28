@@ -1,10 +1,15 @@
 {% extends "base.html" %}
+{% load socialaccount %}
+{% load account %}
 
 {% block content %}
 <div class="d-flex justify-content-center align-items-center" style="min-height: 80vh;">
     <div class="col-md-4">
         <h4 class="text-center">Реєстрація</h4>
         <form method="post" enctype="multipart/form-data" class="p-4 border rounded bg-light">
+            <div class="text-center mb-3">
+            <a href="{% provider_login_url 'google' %}" class="btn btn-danger" >Login with Google</a>
+                </div>
             {% csrf_token %}
             {{ form.as_p }}
             <div class="text-center">
