@@ -2,18 +2,52 @@ from django.shortcuts import render, redirect
 from .models import Task
 from .forms import TaskForm, EditTaskForm
 from accounts.models import CustomUser
-
+from django.db.models import Q
+from datetime import datetime
 
 def tasks(request):
+    users = CustomUser.objects.all()
+
+    selected_user = request.GET.get('user', '')
     selected_priority = request.GET.get('priority', '')
+    selected_date_from = request.GET.get('date_from', '')
+    selected_date_to = request.GET.get('date_to', '')
+    selected_title = request.GET.get('title', '')
+
+    filters = Q()  # Start with an empty filter
+
+    if selected_user:
+        filters &= Q(user_id=selected_user)
 
     if selected_priority:
-        tasks = Task.objects.filter(priority=selected_priority)
+        filters &= Q(priority=selected_priority)
+
+    if selected_date_from:
+        filters &= Q(due_date__gte=datetime.strptime(selected_date_from, '%Y-%m-%d'))
+
+    if selected_date_to:
+        filters &= Q(due_date__lte=datetime.strptime(selected_date_to, '%Y-%m-%d'))
+
+    if selected_title:
+        filters &= Q(title__icontains=selected_title)
+
+    # Get tasks based on filters
+    if request.user.is_authenticated:
+        tasks = Task.objects.filter(filters)
     else:
-        tasks = Task.objects.all()
+        tasks = Task.objects.none()  # Return empty queryset if user is not authenticated
 
-    return render(request, 'manager_task/tasks.html', {'tasks': tasks, 'selected_priority': selected_priority})
+    context = {
+        'tasks': tasks,
+        'users': users,
+        'selected_user': selected_user,
+        'selected_priority': selected_priority,
+        'selected_date_from': selected_date_from,
+        'selected_date_to': selected_date_to,
+        'selected_title': selected_title,
+    }
 
+    return render(request, 'manager_task/tasks.html', context)
 
 def create_task(request):
     if request.method == 'POST':

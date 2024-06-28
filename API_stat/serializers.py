@@ -11,6 +11,29 @@ class TaskSerializer(serializers.ModelSerializer):
         read_only_fields = ['user']
 
 
+class UserStatisticsSerializer(serializers.ModelSerializer):
+    total_tasks = serializers.IntegerField()
+    completed_tasks = serializers.IntegerField()
+    pending_tasks = serializers.IntegerField()
+
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'username', 'email', 'total_tasks', 'completed_tasks', 'pending_tasks', 'is_active',
+                  'is_staff', 'is_superuser']
+
+    @staticmethod
+    def active(obj):
+        return obj.is_active
+
+    @staticmethod
+    def staff(obj):
+        return obj.is_staff
+
+    @staticmethod
+    def superuser(obj):
+        return obj.is_superuser
+
+
 class TaskStatisticsSerializer(serializers.ModelSerializer):
     total_tasks = serializers.IntegerField()
     completed_tasks = serializers.IntegerField()

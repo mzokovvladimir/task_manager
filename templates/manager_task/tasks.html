@@ -6,6 +6,14 @@
     <div class="container">
         <h1>User Tasks</h1>
         <form method="GET" action="">
+            <label for="user">Filter by User:</label>
+            <select id="user" name="user">
+                <option value="" {% if not selected_user %}selected{% endif %}>All Users</option>
+                {% for u in users %}
+                    <option value="{{ u.id }}" {% if selected_user == u.id %}selected{% endif %}>{{ u.username }}</option>
+                {% endfor %}
+            </select>
+
             <label for="priority">Filter by Priority:</label>
             <select id="priority" name="priority">
                 <option value="" {% if not selected_priority %}selected{% endif %}>All</option>
@@ -13,8 +21,20 @@
                 <option value="2" {% if selected_priority == '2' %}selected{% endif %}>Medium</option>
                 <option value="3" {% if selected_priority == '3' %}selected{% endif %}>High</option>
             </select>
+
+            <label for="date_from">From Date:</label>
+            <input type="date" name="date_from" id="date_from" value="{{ selected_date_from }}">
+
+            <label for="date_to">To Date:</label>
+            <input type="date" name="date_to" id="date_to" value="{{ selected_date_to }}">
+
+            <label for="title">Title:</label>
+            <input type="text" name="title" id="title" value="{{ selected_title }}">
+
             <button type="submit" class="btn">Apply Filter</button>
+            <a href="{% url 'tasks' %}" class="btn btn-secondary">Clear Filter</a>
         </form>
+        
         <table class="table">
             <thead>
                 <tr>

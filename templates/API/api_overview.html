@@ -1,9 +1,16 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}API{% endblock %}
+{% block title %}API Task Manager{% endblock %}
 
 {% block content %}
-    <h1>API Overview</h1>
-    <p>This is the overview of the API endpoints.</p>
-    <a href="{{ api_root_url }}">Go to API Root</a>
+    <div class="container mt-5" style="min-height: 70vh">
+        <h1 class="text-center">API Task Manager</h1>
+        <div class="text-center">
+           
+            <a class="btn btn-info" href="{% url 'api:statistic' %}">Task Statistics</a>
+            
+            <a class="btn btn-info" href="{% url 'api:task-statistic' %}">User Statistics Page</a>
+        
+        </div>
+    </div>
 {% endblock %}
