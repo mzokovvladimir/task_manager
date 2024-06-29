@@ -12,13 +12,17 @@ class TaskSerializer(serializers.ModelSerializer):
 
 
 class UserStatisticsSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField()
+    username = serializers.CharField(max_length=255)
+    email = serializers.EmailField()
     total_tasks = serializers.IntegerField()
-    completed_tasks = serializers.IntegerField()
-    pending_tasks = serializers.IntegerField()
+    active = serializers.BooleanField()
+    staff = serializers.BooleanField()
+    superuser = serializers.BooleanField()
 
     class Meta:
         model = CustomUser
-        fields = ['id', 'username', 'email', 'total_tasks', 'completed_tasks', 'pending_tasks', 'is_active',
+        fields = ['id', 'username', 'email', 'total_tasks', 'is_active',
                   'is_staff', 'is_superuser']
 
     @staticmethod

@@ -6,6 +6,9 @@
     <h1 class="text-center">API Task Manager</h1>
     <ul class="nav flex-column text-center">
         <li class="nav-item">
+            <a class="btn btn-primary mb-2" href="{% url 'api:user-statistics' %}">User Statistics</a>
+            <a class="btn btn-primary mb-2" href="{% url 'api:statistics' %}">Task Statistics</a>
+        
             <a class="btn btn-primary mb-2" href="{% url 'api:statistic' %}">User Statistics</a>
             <a class="btn btn-primary mb-2" href="{% url 'api:task-statistic' %}">Task Statistics</a>
         </li>

@@ -6,6 +6,14 @@
     <div class="container" style="min-height: 70vh">
         <h1>User Tasks</h1>
         <form method="GET" action="">
+            <label for="user">Filter by User:</label>
+            <select id="user" name="user">
+                <option value="" {% if not selected_user %}selected{% endif %}>All</option>
+                {% for user in users %}
+                <option value="{{ user.id }}" {% if selected_user == user.id|stringformat:"s" %}selected{% endif %}>{{ user.username }}</option>
+                {% endfor %}
+            </select>
+
             <label for="priority">Filter by Priority:</label>
             <select id="priority" name="priority">
                 <option value="" {% if not selected_priority %}selected{% endif %}>All</option>
@@ -13,8 +21,20 @@
                 <option value="2" {% if selected_priority == '2' %}selected{% endif %}>Medium</option>
                 <option value="3" {% if selected_priority == '3' %}selected{% endif %}>High</option>
             </select>
+
+            <label for="date_from">Date From:</label>
+            <input type="date" id="date_from" name="date_from" value="{{ selected_date_from }}">
+
+            <label for="date_to">Date To:</label>
+            <input type="date" id="date_to" name="date_to" value="{{ selected_date_to }}">
+
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" value="{{ selected_title }}">
+
             <button type="submit" class="btn btn-info text-light">Apply Filter</button>
+            <a href="{% url 'tasks' %}" class="btn btn-secondary">Reset Filters</a>
         </form>
+
         <table class="table text-center">
             <thead class="thead bg-info text-light">
                 <tr>
@@ -53,8 +73,9 @@
                 {% endfor %}
             </tbody>
         </table>
-    <div class="text-center mt-3">
-        <a href="{% url 'create_task' %}" class="btn btn-info text-light">Create New Task</a>
-    </div>
+
+        <div class="text-center mt-3">
+            <a href="{% url 'create_task' %}" class="btn btn-info text-light">Create New Task</a>
+        </div>
     </div>
 {% endblock %}

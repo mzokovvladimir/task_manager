@@ -5,6 +5,7 @@ from accounts.models import CustomUser
 from django.db.models import Q
 from datetime import datetime
 
+
 def tasks(request):
     users = CustomUser.objects.all()
 
@@ -14,7 +15,7 @@ def tasks(request):
     selected_date_to = request.GET.get('date_to', '')
     selected_title = request.GET.get('title', '')
 
-    filters = Q()  # Start with an empty filter
+    filters = Q()
 
     if selected_user:
         filters &= Q(user_id=selected_user)
@@ -31,11 +32,10 @@ def tasks(request):
     if selected_title:
         filters &= Q(title__icontains=selected_title)
 
-    # Get tasks based on filters
     if request.user.is_authenticated:
         tasks = Task.objects.filter(filters)
     else:
-        tasks = Task.objects.none()  # Return empty queryset if user is not authenticated
+        tasks = Task.objects.none()
 
     context = {
         'tasks': tasks,
@@ -48,6 +48,7 @@ def tasks(request):
     }
 
     return render(request, 'manager_task/tasks.html', context)
+
 
 def create_task(request):
     if request.method == 'POST':
@@ -88,4 +89,3 @@ def edit_task(request, task_id):
         form = EditTaskForm(instance=task)
 
     return render(request, 'manager_task/edit_task.html', {'form': form})
-
